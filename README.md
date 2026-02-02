@@ -1,18 +1,65 @@
-# React + Vite
+# SECRET ROOM 🔐
+## Encrypted Anonymous Chat – Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend de una aplicación de **chat anónimo, en tiempo real y con cifrado end-to-end (E2E)**.  
+Todo el proceso criptográfico ocurre **exclusivamente en el navegador** del usuario.
 
-Currently, two official plugins are available:
+El servidor **nunca ve mensajes en texto plano**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Características principales
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+* Interfaz moderna y minimalista
+* Chat en tiempo real con **WebSockets**
+* **Cifrado E2E** usando **AES-256-GCM**
+* Anónimo (solo alias, sin login)
+* Salas privadas con `roomId`
+* Claves generadas localmente
+* Desencriptación solo en el cliente
+* Sin persistencia de mensajes
 
-Note: This will impact Vite dev & build performances.
+---
 
-## Expanding the ESLint configuration
+## 🛠️ Stack tecnológico
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+| Capa         | Tecnología       |
+| ------------ | ---------------- |
+| Framework UI | React            |
+| Bundler      | Vite             |
+| Lenguaje     | JavaScript (JSX) |
+| Realtime     | Socket.IO Client |
+| Cifrado      | Web Crypto API   |
+| Estilos      | TailwindCSS      |
+
+---
+
+## 🔐 Modelo de seguridad (E2E)
+
+* La clave criptográfica se **deriva en el frontend**
+* Nunca se envía la clave al servidor
+* Cada mensaje se cifra con:
+  * `ciphertext`
+  * `iv` (vector de inicialización)
+* Algoritmo: **AES-256-GCM**
+
+Esto garantiza:
+
+* Confidencialidad
+* Integridad del mensaje
+* Autenticación implícita
+
+📌 Si el `ciphertext`, el `iv` o la clave no coinciden, el mensaje **no puede ser descifrado**.
+
+---
+
+## 🧠 Flujo de la aplicación
+
+1. El usuario ingresa un alias
+2. Crea o se une a una sala
+3. Se deriva una clave criptográfica local
+4. Los mensajes se cifran antes de enviarse
+5. Los mensajes se descifran al recibirse
+6. El servidor solo reenvía datos cifrados
+
+---
